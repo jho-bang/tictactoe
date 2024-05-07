@@ -48,6 +48,18 @@ export class AutoComplete<T> extends View<IAutoCompleteProps<T>> {
     }
   }
 
+  override onMount() {
+    const autoCompleteInput = this.element().querySelector(
+      "#autocomplete-input",
+    );
+    if (autoCompleteInput) {
+      autoCompleteInput.addEventListener("keyup", (e) => this.onInput(e));
+      autoCompleteInput.addEventListener("focusout", () =>
+        setTimeout(this.closeAllList, 200),
+      );
+    }
+  }
+
   override template({ placeholder = "placeholder" }: IAutoCompleteProps<T>) {
     return html`<div class="${style.autocomplete}">
       <input
@@ -58,17 +70,5 @@ export class AutoComplete<T> extends View<IAutoCompleteProps<T>> {
       />
       <div id="autocomplete-list" class="${style.autocompleteItems}"></div>
     </div>`;
-  }
-
-  override onMount() {
-    const autoCompleteInput = this.element().querySelector(
-      "#autocomplete-input",
-    );
-    if (autoCompleteInput) {
-      autoCompleteInput.addEventListener("keyup", (e) => this.onInput(e));
-      autoCompleteInput.addEventListener("focusout", () =>
-        setTimeout(this.closeAllList, 100),
-      );
-    }
   }
 }

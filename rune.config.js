@@ -4,7 +4,7 @@ import { join, resolve } from "node:path";
  * @type {import('@rune-ts/server').RuneConfigType}
  */
 export default {
-  port: 5001,
+  port: 5005,
   hostname: "localhost",
   mode: "render",
   sassOptions: {
@@ -13,6 +13,5 @@ export default {
   },
   clientEntry: "./src/app/client/index.ts",
   serverEntry: "./src/app/server/index.ts",
-  watchToReloadPaths: ["../../packages"],
   watchToIgnorePaths: ["**/.env.*", "*.json"],
 };
