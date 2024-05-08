@@ -1,6 +1,5 @@
 // base
 import { View, html, on } from "rune-ts";
-import { pipe, each } from "@fxts/core";
 
 // css
 import style from "./style.module.scss";
@@ -14,11 +13,7 @@ interface Props {
 export class ResetButtonView extends View<Props> {
   @on("click")
   private _onClick() {
-    pipe(
-      document.querySelectorAll(".square"),
-      each((v) => (v.textContent = "")),
-      () => this.data.reset(),
-    );
+    this.data.reset();
   }
 
   override template() {

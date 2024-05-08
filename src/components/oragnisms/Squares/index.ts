@@ -1,6 +1,6 @@
 // base
 import { ListView, View, html, on, CustomEventWithDetail } from "rune-ts";
-import { pipe, filter, map, takeWhile, toArray } from "@fxts/core";
+import { pipe, filter, map, takeWhile, toArray, each } from "@fxts/core";
 
 // css
 import style from "./style.module.scss";
@@ -9,7 +9,7 @@ import style from "./style.module.scss";
 import { type ISquareItemProps, RequestEvent, SquareView } from "../../atoms";
 
 // types
-import type { ITicTacToeStore, TPlayers } from "../../../types";
+import type { ITicTacToeStore } from "../../../types";
 
 const initialValues: ITicTacToeStore = {
   players: ["X", "O"],
@@ -30,7 +30,6 @@ const initialValues: ITicTacToeStore = {
 
 export class SquareListView extends ListView<ISquareItemProps, SquareView> {
   override className = style.SquareListView;
-
   state: ITicTacToeStore = { ...initialValues };
 
   @on("click", `.${SquareView}`)
@@ -137,6 +136,10 @@ export class SquareListView extends ListView<ISquareItemProps, SquareView> {
   }
 
   resetState = () => {
+    pipe(
+      document.querySelectorAll(".square"),
+      each((v) => (v.textContent = "")),
+    );
     this.state = { ...initialValues };
   };
 
