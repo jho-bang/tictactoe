@@ -18,9 +18,6 @@ export class TicTacToePage extends Page<object> {
       toArray,
     ),
   );
-  resetButtonView = new ResetButtonView({
-    reset: this.squareListView.resetState,
-  });
 
   @on(RequestEvent)
   private _on(ev: RequestEvent) {
@@ -34,7 +31,11 @@ export class TicTacToePage extends Page<object> {
       <div>${this.stateView}</div>
       <div id="board">
         <div>${this.squareListView}</div>
-        <div>${this.resetButtonView}</div>
+        <div>
+          ${new ResetButtonView({
+            reset: this.squareListView.resetState,
+          })}
+        </div>
       </div>
     </div>`;
   }

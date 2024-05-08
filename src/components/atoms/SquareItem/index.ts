@@ -4,7 +4,9 @@ import { pipe, filter, map, takeWhile, toArray } from "@fxts/core";
 
 // css
 import style from "./style.module.scss";
-import type { TPlayers } from "../../../../../../../types";
+
+// types
+import type { TPlayers } from "../../../types";
 
 export class RequestEvent extends CustomEventWithDetail<TPlayers> {}
 

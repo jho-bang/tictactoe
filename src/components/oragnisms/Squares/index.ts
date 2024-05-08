@@ -5,10 +5,11 @@ import { pipe, filter, map, takeWhile, toArray } from "@fxts/core";
 // css
 import style from "./style.module.scss";
 
-import type { ITicTacToeStore, TPlayers } from "../../../../../types";
-import { type ISquareItemProps, SquareView } from "./atoms/SquareItem";
+// atoms
+import { type ISquareItemProps, RequestEvent, SquareView } from "../../atoms";
 
-export class RequestEvent extends CustomEventWithDetail<TPlayers> {}
+// types
+import type { ITicTacToeStore, TPlayers } from "../../../types";
 
 const initialValues: ITicTacToeStore = {
   players: ["X", "O"],
@@ -30,7 +31,7 @@ const initialValues: ITicTacToeStore = {
 export class SquareListView extends ListView<ISquareItemProps, SquareView> {
   override className = style.SquareListView;
 
-  state: ITicTacToeStore = JSON.parse(JSON.stringify(initialValues));
+  state: ITicTacToeStore = { ...initialValues };
 
   @on("click", `.${SquareView}`)
   private _click(ev: MouseEvent) {
@@ -65,13 +66,11 @@ export class SquareListView extends ListView<ISquareItemProps, SquareView> {
       currentTarget.textContent = this.state.currentPlayer;
     }
 
-    const squares = pipe(
+    this.state.squares = pipe(
       document.querySelectorAll(".square"),
       map((v) => v.textContent || ""),
       toArray,
     );
-
-    this.state.squares = squares;
   }
 
   private setCurrentPlayer() {
@@ -105,8 +104,10 @@ export class SquareListView extends ListView<ISquareItemProps, SquareView> {
       squares[b] === currentPlayer &&
       squares[c] === currentPlayer;
 
+    const winning_combinations = this.state.winning_combinations;
+
     const result = pipe(
-      this.state.winning_combinations,
+      winning_combinations,
       filter(compareSquare),
       takeWhile((v) => v.length),
       toArray,
@@ -136,7 +137,7 @@ export class SquareListView extends ListView<ISquareItemProps, SquareView> {
   }
 
   resetState = () => {
-    this.state = JSON.parse(JSON.stringify(initialValues));
+    this.state = { ...initialValues };
   };
 
   override ItemView = SquareView;
