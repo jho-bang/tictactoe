@@ -6,18 +6,18 @@ import style from "./style.module.scss";
 import type { TPlayers } from "../../../types";
 
 interface Props {
-  currentPlayer: TPlayers;
+  initPlayer: TPlayers;
 }
 
 export class StateView extends View<Props> {
-  override redraw() {
-    this.element().innerHTML = `${this.data.currentPlayer} 차례`;
-    return this;
-  }
+  public changeState = (currentPlayer: TPlayers) => {
+    const elem = document.querySelector(`.${this}`);
+    if (elem) {
+      elem.innerHTML = `${currentPlayer} 차례`;
+    }
+  };
 
-  override template() {
-    return html`
-      <h3 class="${style.status}">${this.data.currentPlayer} 차례</h3>
-    `;
+  override template({ initPlayer }: Props) {
+    return html` <h3 class="${style.status}">${initPlayer} 차례</h3> `;
   }
 }

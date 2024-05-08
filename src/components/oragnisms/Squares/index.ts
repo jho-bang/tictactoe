@@ -1,15 +1,12 @@
 // base
 import { ListView, View, html, on, CustomEventWithDetail } from "rune-ts";
-import { pipe, filter, map, takeWhile, toArray, each } from "@fxts/core";
+import { pipe, filter, map, takeWhile, toArray, each, range } from "@fxts/core";
 
 // css
 import style from "./style.module.scss";
 
-// atoms
-import { type ISquareItemProps, RequestEvent, SquareView } from "../../atoms";
-
 // types
-import type { ITicTacToeStore } from "../../../types";
+import type { ITicTacToeStore, TPlayers } from "../../../types";
 
 const initialValues: ITicTacToeStore = {
   players: ["X", "O"],
@@ -28,11 +25,20 @@ const initialValues: ITicTacToeStore = {
   isEndGame: false,
 };
 
-export class SquareListView extends ListView<ISquareItemProps, SquareView> {
-  override className = style.SquareListView;
+export class SquareListView extends View<{
+  changeCurrentPlayer: (currentPlayer: TPlayers) => void;
+}> {
   state: ITicTacToeStore = { ...initialValues };
 
-  @on("click", `.${SquareView}`)
+  public resetState = () => {
+    pipe(
+      document.querySelectorAll(`.${style.square}`),
+      each((v) => (v.textContent = "")),
+    );
+    this.state = { ...initialValues };
+  };
+
+  @on("click", `.${style.square}`)
   private _click(ev: MouseEvent) {
     if (this.isEndGame() || this.isExists(ev)) return;
 
@@ -44,11 +50,7 @@ export class SquareListView extends ListView<ISquareItemProps, SquareView> {
     }
 
     this.setCurrentPlayer();
-
-    this.dispatchEvent(RequestEvent, {
-      detail: this.state.currentPlayer,
-      bubbles: true,
-    });
+    this.data.changeCurrentPlayer(this.state.currentPlayer);
   }
 
   private isEndGame() {
@@ -66,7 +68,7 @@ export class SquareListView extends ListView<ISquareItemProps, SquareView> {
     }
 
     this.state.squares = pipe(
-      document.querySelectorAll(".square"),
+      document.querySelectorAll(`.${style.square}`),
       map((v) => v.textContent || ""),
       toArray,
     );
@@ -135,13 +137,13 @@ export class SquareListView extends ListView<ISquareItemProps, SquareView> {
     return true;
   }
 
-  resetState = () => {
-    pipe(
-      document.querySelectorAll(".square"),
-      each((v) => (v.textContent = "")),
-    );
-    this.state = { ...initialValues };
-  };
-
-  override ItemView = SquareView;
+  override template() {
+    return html`<div class="${style.SquareListView}">
+      ${pipe(
+        range(0, 9),
+        map((v) => html`<div class="${style.square}"></div>`),
+        toArray,
+      )}
+    </div>`;
+  }
 }

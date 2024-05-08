@@ -1,8 +1,6 @@
-import { Page, html, on } from "rune-ts";
-import { map, pipe, range, toArray } from "@fxts/core";
+import { Page, html } from "rune-ts";
 
 import {
-  RequestEvent,
   ResetButtonView,
   SquareListView,
   StateView,
@@ -10,20 +8,10 @@ import {
 } from "../../components";
 
 export class TicTacToePage extends Page<object> {
-  stateView = new StateView({ currentPlayer: "X" });
-  squareListView = new SquareListView(
-    pipe(
-      range(0, 9),
-      map((v) => ({ value: v })),
-      toArray,
-    ),
-  );
-
-  @on(RequestEvent)
-  private _on(ev: RequestEvent) {
-    this.stateView.data.currentPlayer = ev.detail;
-    this.stateView.redraw();
-  }
+  stateView = new StateView({ initPlayer: "X" });
+  squareListView = new SquareListView({
+    changeCurrentPlayer: this.stateView.changeState,
+  });
 
   override template() {
     return html`<div>
