@@ -28,7 +28,7 @@ const initialValues: ITicTacToeStore = {
 export class SquareListView extends View<{
   changeCurrentPlayer: (currentPlayer: TPlayers) => void;
 }> {
-  state: ITicTacToeStore = { ...initialValues };
+  private state: ITicTacToeStore = { ...initialValues };
 
   public resetState = () => {
     pipe(
@@ -44,7 +44,7 @@ export class SquareListView extends View<{
 
     this.updateSquares(ev);
 
-    if (this.checkWin() || this.checkDraw()) {
+    if (this.isWin() || this.isDraw()) {
       this.setIsEndGame(true);
       return;
     }
@@ -89,15 +89,6 @@ export class SquareListView extends View<{
     return false;
   }
 
-  private checkWin() {
-    if (this.isWin()) {
-      alert(`${this.state.currentPlayer} 승리`);
-      return true;
-    }
-
-    return false;
-  }
-
   private isWin() {
     const { currentPlayer, squares } = this.state;
     const compareSquare = ([a, b, c]: number[]) =>
@@ -114,26 +105,24 @@ export class SquareListView extends View<{
       toArray,
     );
 
-    return !!result.length;
-  }
+    const checkWin = !!result.length;
 
-  private checkDraw() {
-    const squares = this.state.squares;
-    if (this.isDraw(squares)) {
-      alert("무승부");
-      return true;
+    if (checkWin) {
+      alert(`${this.state.currentPlayer} 승리`);
     }
 
-    return false;
+    return checkWin;
   }
 
-  private isDraw(squares: string[]) {
+  private isDraw() {
+    const squares = this.state.squares;
+
     for (const content of squares) {
       if (content === "") {
         return false;
       }
     }
-
+    alert("무승부");
     return true;
   }
 

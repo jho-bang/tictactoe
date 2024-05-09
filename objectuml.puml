@@ -1,0 +1,47 @@
+@startuml
+
+Class TicTacToePage {
+    -stateView: StateView
+    -squareListView: SquareListView
+
+    override template(): html
+}
+
+Class StateView {
+    +initPlayer: TPlayer
+    +changeState(currentPlayer: TPlayer): void
+}
+Class SquareListView {
+    -state: ITicTacToeState
+    +props changeCurrentPlayer: StateView.changeState
+
+    +resetState(): void
+
+    -@on('click', 'square')
+    -isEndGame(): void
+    -setIsEndGame(isEndGame:boolean): void
+    -updateSquares(): void
+    -setCurrentPlayer(): void
+    -isExists(): void
+    -isWin(): void
+    -isDraw(): void
+}
+
+Class ResetButtonView {
+    +props reset: SquareListView.resetState
+
+    -@on('click'): void
+}
+
+
+TicTacToePage *-- StateView : contains
+TicTacToePage *-- SquareListView : contains
+TicTacToePage *-- ResetButtonView : contains
+
+StateView - SquareListView : changeState >
+SquareListView - ResetButtonView : resetState >
+
+
+
+
+@enduml

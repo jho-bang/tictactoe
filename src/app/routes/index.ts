@@ -1,8 +1,8 @@
 import { createRouter } from "@rune-ts/server";
-import { TicTacToeRoute } from "../../pages/home/route";
+import { Route } from "../../pages";
 
-export type ClientRouter = typeof TicTacToeRoute;
+export type ClientRouter = typeof Route;
 
 export const ClientRouter = createRouter<ClientRouter>({
-  ...TicTacToeRoute,
+  ...Route,
 });

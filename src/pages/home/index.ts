@@ -7,24 +7,23 @@ import {
   TitleView,
 } from "../../components";
 
-export class TicTacToePage extends Page<object> {
-  stateView = new StateView({ initPlayer: "X" });
-  squareListView = new SquareListView({
+import style from "./style.module.scss";
+
+export class HomePage extends Page<object> {
+  private stateView = new StateView({ initPlayer: "X" });
+  private squareListView = new SquareListView({
     changeCurrentPlayer: this.stateView.changeState,
   });
 
   override template() {
     return html`<div>
-      <div>${new TitleView({ title: "와아 틱택토!" })}</div>
-      <div>${this.stateView}</div>
-      <div id="board">
-        <div>${this.squareListView}</div>
-        <div>
-          ${new ResetButtonView({
-            reset: this.squareListView.resetState,
-          })}
-        </div>
+      <div class="${style.title}">
+        ${new TitleView({ children: "와아 틱택토!", level: 1 })}
       </div>
+      ${this.stateView} ${this.squareListView}
+      ${new ResetButtonView({
+        reset: this.squareListView.resetState,
+      })}
     </div>`;
   }
 }
