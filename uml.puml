@@ -1,17 +1,19 @@
 @startuml
 
-Class TicTacToePage {
+Class TicTacToePage<Props> {
     -stateView: StateView
     -squareListView: SquareListView
 
-    override template(): html
+    +override template(Props): html
 }
 
-Class StateView {
+Class StateView<Props> {
     +initPlayer: TPlayer
     +changeState(currentPlayer: TPlayer): void
+
+    +override template(Props): html
 }
-Class SquareListView {
+Class SquareListView<Props> {
     -state: ITicTacToeState
     +props changeCurrentPlayer: StateView.changeState
 
@@ -25,18 +27,36 @@ Class SquareListView {
     -isExists(): void
     -isWin(): void
     -isDraw(): void
+
+    +override template(Props): html
 }
 
-Class ResetButtonView {
+Class ResetButtonView<Props> {
     +props reset: SquareListView.resetState
 
     -@on('click'): void
+
+    +override template(Props): html
+}
+
+Class ButtonDefault<Props> {
+    +props label: string;
+    +props color: string
+    +props variant: ButtonType
+    +props size: ButtonSize
+    +props radius: ButtonSize
+    +onClick?: () => void
+
+    +override onMount(): void
+    +override template(Props): html
 }
 
 
 TicTacToePage <|-- StateView
 TicTacToePage <|-- SquareListView
 TicTacToePage <|-- ResetButtonView
+
+ResetButtonView <|-- ButtonDefault
 
 StateView - SquareListView : +changeState(currentPlayer: TPlayer): void >
 SquareListView - ResetButtonView : +resetState(): void >
