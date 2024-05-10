@@ -34,12 +34,12 @@ Class ResetButtonView {
 }
 
 
-TicTacToePage *-- StateView : contains
-TicTacToePage *-- SquareListView : contains
-TicTacToePage *-- ResetButtonView : contains
+TicTacToePage <|-- StateView
+TicTacToePage <|-- SquareListView
+TicTacToePage <|-- ResetButtonView
 
-StateView - SquareListView : changeState >
-SquareListView - ResetButtonView : resetState >
+StateView - SquareListView : +changeState(currentPlayer: TPlayer): void >
+SquareListView - ResetButtonView : +resetState(): void >
 
 
 

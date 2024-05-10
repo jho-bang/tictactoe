@@ -66,6 +66,9 @@ importers:
       sass-loader:
         specifier: ^14.1.0
         version: 14.2.1(sass@1.77.0)(webpack@5.91.0(@swc/core@1.5.3)(esbuild@0.18.20))
+      sass-resources-loader:
+        specifier: ^2.2.5
+        version: 2.2.5
       storybook:
         specifier: ^7.6.16
         version: 7.6.19
@@ -4240,6 +4243,9 @@ packages:
         optional: true
       webpack:
         optional: true
+
+  sass-resources-loader@2.2.5:
+    resolution: {integrity: sha512-po8rfETH9cOQACWxubT/1CCu77KjxwRtCDm6QAXZH99aUHBydwSoxdIjC40SGp/dcS/FkSNJl0j1VEojGZqlvQ==}
 
   sass@1.77.0:
     resolution: {integrity: sha512-eGj4HNfXqBWtSnvItNkn7B6icqH14i3CiCGbzMKs3BAPTq62pp9NBYsBgyN4cA+qssqo9r26lW4JSvlaUUWbgw==}
@@ -9718,6 +9724,13 @@ snapshots:
     optionalDependencies:
       sass: 1.77.0
       webpack: 5.91.0(@swc/core@1.5.3)(esbuild@0.18.20)
+
+  sass-resources-loader@2.2.5:
+    dependencies:
+      async: 3.2.5
+      chalk: 4.1.2
+      glob: 7.2.3
+      loader-utils: 2.0.4
 
   sass@1.77.0:
     dependencies:
