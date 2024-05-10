@@ -38,7 +38,7 @@ const stories: DefaultBtnProps = {
   variant: "Filled",
   size: "md",
   radius: "md",
-  color: "##4f5ee8",
+  color: "#4f5ee8",
   onClick: action("clicked"),
 };
 
