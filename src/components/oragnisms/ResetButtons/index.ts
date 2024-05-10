@@ -20,9 +20,11 @@ export class ResetButtonView extends View<Props> {
     return html`
       <div class="${style.restartButton}">
         ${new ButtonDefault({
-          text: "다시 시작",
-          type: "primary",
-          size: "large",
+          variant: "Filled",
+          size: "md",
+          radius: "md",
+          color: "#4f5ee8",
+          label: "다시 시작",
         })}
       </div>
     `;

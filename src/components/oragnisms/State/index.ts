@@ -12,7 +12,7 @@ interface Props {
 
 export class StateView extends View<Props> {
   public changeState = (currentPlayer: TPlayers) => {
-    const elem = document.querySelector(`.${this}`);
+    const elem = this.element();
     if (elem) {
       elem.innerHTML = "";
       elem.append(
